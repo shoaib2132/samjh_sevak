@@ -1,6 +1,6 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
+
+import '../../component/card.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -33,13 +33,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getList() async {
-  //  await Isolate.run(() {
-      for (var i = 1; i <= 10000; i++) {
-        _allLogList.add({'id': i});
-      }
+    //  await Isolate.run(() {
+    for (var i = 1; i <= 10000; i++) {
+      _allLogList.add({'id': i});
+    }
 
-      _filteredList = _allLogList;
-      print(_filteredList.length);
+    _filteredList = _allLogList;
+    print(_filteredList.length);
     // });
   }
 
@@ -54,8 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(
+          widget.title,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Center(
         child: Padding(
@@ -79,26 +82,40 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ElevatedButton(onPressed: () => {}, child: Text('TEst')),
-                  ElevatedButton(onPressed: () => {}, child: Text('TEst')),
-                  ElevatedButton(onPressed: () => {}, child: Text('TEst'))
+                  Flexible(child: SizedBox(width: double.infinity, child: ElevatedButton(style: ButtonStyle(), onPressed: () => {}, child: Text('Search')))),
+                  const SizedBox(width: 5,),
+                  Flexible(child: SizedBox(width: double.infinity, child: ElevatedButton(style: ButtonStyle(), onPressed: () => {}, child: Text('Reset')))),
+                  // ElevatedButton(onPressed: () => {}, child: Text('TEst')),
                 ],
               ),
               const SizedBox(
                 height: 10,
               ),
               Container(
-                child: const Text('List'),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Theme.of(context).primaryColor,
+                ),
+                height: 30,
+                width: double.infinity,
+                child: const Center(
+                    child: Text(
+                  'Voter List',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                )),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Expanded(
                 child: ListView.builder(
-        
                     shrinkWrap: true,
                     itemCount: _filteredList.length,
                     itemBuilder: (context, i) {
-                      return Card(
-                        child: Text(_filteredList[i]['id'].toString()),
-                      );
+                      // return Card(
+                      //   child: Text(_filteredList[i]['id'].toString()),
+                      // );
+                      return const CustomCard();
                     }),
               )
             ],
